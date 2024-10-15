@@ -1,3 +1,4 @@
+-- DATABASE IMPLEMENTATION
 CREATE DATABASE dbprin_lab3;
 
 CREATE TABLE languages (
@@ -46,3 +47,41 @@ CREATE TABLE film_category (
     FOREIGN KEY (category) REFERENCES category(category_id),
     PRIMARY KEY (film_id, category_id)
 );
+
+-- MOCK DATA 
+INSERT INTO languages (language_id, language_name, language_code) 
+VALUES
+(1, 'Chinese', 'ZH'),
+(2, 'Latvian', ''),
+(3, 'Hiri Motu', ''),
+(4, 'Tswana', ''),
+(5, 'Tswana', ''),
+(6, 'Quechua', ''),
+(7, 'Dzongkha', ''),
+(8, 'Maltese', ''),
+(9, 'Papiamento', ''),
+(10, 'Luxembourgish', '');
+
+-- QUERIES
+SELECT
+FROM
+WHERE
+;
+
+
+SELECT
+FROM
+WHERE
+;
+
+
+SELECT
+FROM
+WHERE
+;
+
+
+SELECT
+FROM
+WHERE
+;
