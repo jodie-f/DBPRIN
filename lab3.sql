@@ -44,7 +44,7 @@ CREATE TABLE film_category (
     category_id INT NOT NULL,
 
     FOREIGN KEY (film_id) REFERENCES film(film_id),
-    FOREIGN KEY (category) REFERENCES category(category_id),
+    FOREIGN KEY (category_id) REFERENCES category(category_id),
     PRIMARY KEY (film_id, category_id)
 );
 
@@ -97,7 +97,7 @@ VALUES
 ('Maryl', 'Somner', '1968-10-31');
 
 
-INSERT INTO film (film_tile, release_date, language_id, original_language_id)
+INSERT INTO film (film_title, release_date, language_id, original_language_id)
 VALUES
 ('Lucky One, The', '4/17/2024', 6, 2),
 ('39 Steps, The', '2/19/2024', 6, 6),
@@ -105,7 +105,7 @@ VALUES
 ('Superman/Shazam!: The Return of Black Adam (DC Showcase Original Shorts Collection)', '5/17/2024', 7, 2),
 ('Hangtime - Kein leichtes Spiel', '6/28/2024', 1, 10),
 ('Rush Hour 2', '7/18/2024', 8, 1),
-('They Made Me a Criminal (I Became a Criminal) (They Made Me a Fugitive)', '8/3/2024', 2, 9);
+('They Made Me a Criminal (I Became a Criminal) (They Made Me a Fugitive)', '8/3/2024', 2, 9),
 ('Knights of the Round Table', '6/25/2024', 6, 3),
 ('24 Exposures', '6/20/2024', 3, 7),
 ('Omar Killed Me (Omar m''a tuer)', '6/21/2024', 7, 3),
@@ -158,7 +158,7 @@ VALUES
 (9, 26),
 (17, 4),
 (7, 11),
-(15, 20),
+(12, 15),
 (5, 20),
 (5, 30),
 (17, 8),
@@ -168,37 +168,33 @@ VALUES
 
 INSERT INTO film_category (film_id, category_id)
 VALUES
-(12, 28),
-(1, 30),
-(5, 24),
-(6, 21),
-(13, 13),
-(11, 19),
-(13, 24),
-(14, 13),
-(12, 20),
-(11, 3);
+(13, 7),
+(1, 10),
+(10, 10),
+(7, 9),
+(9, 9),
+(9, 1),
+(4, 5),
+(8, 7),
+(8, 2),
+(11, 1);
 
 -- QUERIES
 SELECT
-FROM
-WHERE
-;
+    CONCAT_WS(' ', a.actor_name, a.actor_lname) AS "Actor",
+    f.film_title AS "Film Title"
+FROM actor a
+    JOIN film_actor fa USING (actor_id)
+    JOIN film f USING (film_id)
+WHERE film_title = 'Anna'
+ORDER BY "Actor";
 
+INSERT INTO languages (language_id, language_name, language_code) VALUES 
+(11, 'Japanese', 'JP');
 
-SELECT
-FROM
-WHERE
-;
+UPDATE film_category 
+SET category_id = 10 
+WHERE film_id = 7 AND category_id = 7;
 
-
-SELECT
-FROM
-WHERE
-;
-
-
-SELECT
-FROM
-WHERE
-;
+DELETE FROM film_actor
+WHERE film_id = 7 AND actor_id = 11;
