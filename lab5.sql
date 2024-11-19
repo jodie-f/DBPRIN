@@ -43,8 +43,8 @@ SELECT
   l.name AS "Original Language",
   COUNT(m.movie_id) AS "Number of Movies"
 FROM language l
-  JOIN movie m USING (language_id)
-  JOIN movie_category mc USING (movie_id)
-  JOIN category c USING (category_id)
+  LEFT JOIN movie m ON (l.language_id = m.original_language_id)
+  LEFT JOIN movie_category mc USING (movie_id)
+  LEFT JOIN category c USING (category_id)
 GROUP BY c.name, l.name
 ORDER BY c.name ASC;
