@@ -59,15 +59,15 @@ DROP INDEX idx_phone;
 -- Q6
 CREATE VIEW customer_details AS
 SELECT
-    CONCAT(cus.first_name, ' ', cus.last_name) AS "Customer",
-    CONCAT(cus.email, ' | ', add.phone) AS "Contact Details",
-    CONCAT(add.address, ' ', add.address2) AS "Customer Address",
-    city.city AS "Customer City",
-    cou.country AS "Customer Country"
+  CONCAT(cus.first_name, ' ', cus.last_name) AS "Customer",
+  CONCAT(cus.email, ' | ', add.phone) AS "Contact Details",
+  CONCAT(add.address, ' ', add.address2) AS "Customer Address",
+  city.city AS "Customer City",
+  cou.country AS "Customer Country"
 FROM customer cus
-    JOIN address add USING (address_id)
-    JOIN city USING (city_id)
-    JOIN country cou USING (country_id)
+  JOIN address add USING (address_id)
+  JOIN city USING (city_id)
+  JOIN country cou USING (country_id)
 ORDER BY cou.country ASC;
 
 SELECT * 
@@ -75,9 +75,56 @@ FROM customer_details;
 
 -- Q7
 SELECT
-    city.city_id AS "City ID",
-    city.city AS "City"
+  city.city_id AS "City ID",
+  city.city AS "City"
 FROM country
-    LEFT JOIN city USING (country_id)
-WHERE country.country = 'United Kingdom'
+  LEFT JOIN city USING (country_id)
+WHERE city.country_id = (
+  SELECT country.country_id
+  FROM country
+  WHERE country.country = 'United Kingdom'
+)
 ORDER BY city.city ASC;
+
+-- Q8
+SELECT
+  city.city_id AS "City ID",
+  city.city AS "City",
+  country.country AS "Country"
+FROM country
+  LEFT JOIN city USING (country_id)
+WHERE city.country_id IN (
+  SELECT country.country_id
+  FROM country
+  WHERE country.country = 'United Kingdom' OR country.country = 'France'
+)
+ORDER BY country.country, city.city ASC;
+
+-- ----------- LAB 7 -----------
+-- Q1
+-- a)
+CREATE ROLE junior_analyst WITH LOGIN PASSWORD 'password1';
+
+-- b)
+psql -h localhost -p 5432 -U junior_analyst -d movie_rental
+
+-- c)
+SELECT * FROM staff;
+-- ERROR:  permission denied for table staff
+
+-- d)
+GRANT SELECT ON staff TO junior_analyst;
+
+-- Q2
+-- a)
+CREATE ROLE cashier WITH LOGIN PASSWORD 'password1';
+
+-- b)
+GRANT INSERT ON payment_p2022_01 TO cashier;
+GRANT USAGE, SELECT ON SEQUENCE payment_p2022_01_payment_id_seq TO cashier;
+
+-- c)
+psql -h localhost -p 5432 -U cashier -d movie_rental
+
+-- d)
+INSERT INTO payment_p2022_01(customer_id, staff_id, rental_id, amount, payment_date) VALUES (1, 1, 1, 5.99, CURRENT_TIMESTAMP);
