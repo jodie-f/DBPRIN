@@ -128,3 +128,44 @@ psql -h localhost -p 5432 -U cashier -d movie_rental
 
 -- d)
 INSERT INTO payment_p2022_01(customer_id, staff_id, rental_id, amount, payment_date) VALUES (1, 1, 1, 5.99, CURRENT_TIMESTAMP);
+
+-- Q3
+-- a)
+GRANT INSERT ON rental TO cashier;
+GRANT SELECT ON rental TO cashier;
+
+-- d)
+GRANT DELETE ON rental TO cashier;
+
+-- Q4
+-- a)
+CREATE ROLE manager WITH LOGIN PASSWORD 'password1';
+GRANT UPDATE ON country TO manager WITH GRANT OPTION;
+
+-- b)
+CREATE ROLE sales WITH LOGIN;
+
+-- c)
+GRANT UPDATE, SELECT ON country TO sales;
+
+-- Q5
+-- a)
+GRANT SELECT ON customer_view TO sales;
+
+-- Q6
+-- a)
+CREATE ROLE admin WITH CREATEROLE;
+
+-- b)
+CREATE ROLE valadam WITH LOGIN PASSWORD '8cb2237d0679ca88db6464eac60da96345513964';
+GRANT admin TO valadam;
+
+-- Q7
+CREATE ROLE senior_analyst WITH LOGIN PASSWORD 'password1';
+GRANT CREATE ON SCHEMA public TO senior_analyst;
+GRANT USAGE ON SCHEMA public TO senior_analyst;
+REVOKE ALL PRIVILEGES ON ALL TABLES IN SCHEMA public FROM senior_analyst;
+SET ROLE senior_analyst;
+
+CREATE TABLE new_table();
+SELECT * FROM customer;
