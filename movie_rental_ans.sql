@@ -223,3 +223,41 @@ FROM actor a
   JOIN movie m USING (movie_id)
 WHERE m.title ILIKE 'Agent Truman'
 ORDER BY a.last_name;
+
+-- ----------- LAB 8 -----------
+-- Q1
+\df
+
+-- Q2
+SELECT movie_id
+FROM movie
+WHERE title ILIKE 'Angels Life';
+
+SELECT movie_in_stock(25, 1);
+
+-- Q3
+CREATE PROCEDURE sp_add_new_actor(first_name VARCHAR, last_name VARCHAR)
+LANGUAGE SQL
+AS $$
+  INSERT INTO actor (first_name, last_name)
+  VALUES (first_name, last_name);
+$$;
+
+CALL sp_add_new_actor('Jodie', 'Fan');
+
+-- Q4
+ALTER TABLE country ADD COLUMN country_code VARCHAR(2);
+
+-- Q5
+ALTER TABLE country
+  ALTER COLUMN country_code TYPE CHAR(2),
+  ADD CONSTRAINT unique_country_code UNIQUE (country_code);
+
+-- Q6
+UPDATE country 
+SET country_code = 'UK'
+WHERE country = 'United Kingdom';
+
+SELECT * FROM country WHERE country = 'United Kingdom';
+
+-- Q7
