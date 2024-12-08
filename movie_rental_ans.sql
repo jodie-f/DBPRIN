@@ -169,3 +169,57 @@ SET ROLE senior_analyst;
 
 CREATE TABLE new_table();
 SELECT * FROM customer;
+
+-- ----------- LAB 7 -----------
+-- Q1
+SELECT
+  actor_id AS "ID",
+  CONCAT(first_name, ' ', last_name) AS "Actor"
+FROM actor
+WHERE first_name ILIKE 'Scarlett';
+
+-- Q2
+SELECT COUNT(DISTINCT last_name) AS "Unique surnames"
+FROM actor;
+
+-- Q3
+SELECT DISTINCT last_name
+FROM actor
+ORDER BY last_name;
+
+-- Q4
+SELECT
+  CONCAT(a.first_name, ' ', a.last_name) AS "Actor",
+  COUNT(ma.movie_id) AS "Amount of movies"
+FROM actor a
+  JOIN movie_actor ma USING (actor_id)
+GROUP BY (a.actor_id)
+ORDER BY "Amount of movies"
+LIMIT 1;
+
+-- Q5
+SELECT
+  COUNT(i.movie_id) AS "Available Copies",
+  i.inventory_id AS "Inventory ID"
+FROM inventory i
+  JOIN movie m USING (movie_id)
+WHERE m.title ILIKE 'Purple Movie' AND i.store_id = 1
+GROUP BY i.inventory_id;
+
+-- Q6
+SELECT
+  sl.name AS "Staff Name",
+  sl.address AS "Staff Address",
+  sl.city AS "Staff City",
+  s.email AS "Staff Email"
+FROM staff_list sl
+  JOIN staff s ON sl.id = s.staff_id;
+
+-- Q7
+SELECT
+  CONCAT(a.first_name, ' ', a.last_name) AS "Actors in Agent Truman"
+FROM actor a
+  JOIN movie_actor USING (actor_id)
+  JOIN movie m USING (movie_id)
+WHERE m.title ILIKE 'Agent Truman'
+ORDER BY a.last_name;
